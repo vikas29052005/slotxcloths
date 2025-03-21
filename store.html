@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SlotX Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #333;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            width: 250px;
+            text-align: center;
+            margin: 20px;
+            display: inline-block;
+        }
+        .product-card img {
+            width: 100%;
+            height: auto;
+        }
+        .cart-container {
+            max-width: 400px;
+            margin: 20px auto;
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .remove-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="aboutus.html">About</a>
+        <a href="store.html">Store</a>
+        <a href="contactus.html">Contact</a>
+        <a href="cart.html">Cart</a>
+    </div>
+
+    <section class="store">
+        <h1>Our Store</h1>
+        <div class="product-grid">
+            <!-- Repeat this block for 15 products -->
+            <div class="product-card">
+                <img src="images/suit.png" alt="Product 1">
+                <h3>RISANI Men Regular Fit Two Piece Suit</h3>
+                <p>$25.99</p>
+                <button class="add-to-cart" onclick="addToCart('Product 1', 25.99)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="images/Screenshot 2025-03-21 112717.png" alt="Product 1">
+                <h3>ADRO Hoodies for Men | Printed Hoodie for Men</h3>
+                <p>$45.99</p>
+                <button class="add-to-cart" onclick="addToCart('Product 1', 25.99)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="images/Screenshot 2025-03-21 003208.png" alt="Product 1">
+                <h3>Allen Solly Men's Solid Regular Fit Polo</h3>
+                <p>$35.99</p>
+                <button class="add-to-cart" onclick="addToCart('Product 1', 25.99)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="images/Screenshot 2025-03-21 112950.png" alt="Product 1">
+                <h3>Peter England Men's Regular Fit Branded Insignia Half Sleeve Polo T-Shirt </h3>
+                <p>$89.99</p>
+                <button class="add-to-cart" onclick="addToCart('Product 1', 25.99)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="images/Screenshot 2025-03-21 113209.png" alt="Product 1">
+                <h3>Alan Jones Clothing Men's Fleece Hooded Hoodie</h3>
+                <p>$56.99</p>
+                <button class="add-to-cart" onclick="addToCart('Product 1', 25.99)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="images/Screenshot 2025-03-21 113403.png" alt="Product 1">
+                <h3>WINTAGE Men's Polyester Cotton and Evening </h3>
+                <p>$27.99</p>
+                <button class="add-to-cart" onclick="addToCart('Product 1', 25.99)">Add to Cart</button>
+            </div>
+
+    <h2>Shopping Cart</h2>
+    <div class="cart-container">
+        <div id="cart-items"></div>
+        <h3>Total: $<span id="total-price">0.00</span></h3>
+    </div>
+
+    <script>
+        // Function to add items to the cart
+        function addToCart(productName, productPrice) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ name: productName, price: productPrice });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCart();
+        }
+
+        // Function to display cart items
+        function displayCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartItemsContainer = document.getElementById("cart-items");
+            let totalPrice = 0;
+
+            cartItemsContainer.innerHTML = "";
+
+            cart.forEach((item, index) => {
+                let itemElement = document.createElement("div");
+                itemElement.classList.add("cart-item");
+                itemElement.innerHTML = `
+                    <span>${item.name} - $${item.price.toFixed(2)}</span>
+                    <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                totalPrice += item.price;
+            });
+
+            document.getElementById("total-price").textContent = totalPrice.toFixed(2);
+        }
+
+        // Function to remove an item from the cart
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCart();
+        }
+
+        // Load cart items when the page loads
+        document.addEventListener("DOMContentLoaded", displayCart);
+    </script>
+
+</body>
+</html>
